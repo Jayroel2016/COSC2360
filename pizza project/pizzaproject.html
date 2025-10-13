@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pizza Order Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h1>Order Your Pizza 🍕</h1>
+        <p class="lead">Choose your size, crust, toppings, and payment. We'll validate everything before submitting.</p>
+      </div>
+      <div class="card-body">
+        <form id="orderForm" novalidate>
+          <!-- Size & Quantity -->
+          <div class="grid cols-2">
+            <div class="field">
+              <label for="size" class="label">Pizza Size <span class="badge">Base price</span></label>
+              <select id="size" name="size" required>
+                <option value="">— Select a size —</option>
+                <option value="small" data-price="9">Small — $9.00</option>
+                <option value="medium" data-price="12">Medium — $12.00</option>
+                <option value="large" data-price="15">Large — $15.00</option>
+                <option value="xlarge" data-price="18">Extra Large — $18.00</option>
+              </select>
+              <span class="error" id="error-size" aria-live="polite"></span>
+            </div>
+
+            <div class="field">
+              <label for="qty" class="label">Quantity</label>
+              <input id="qty" name="qty" type="number" min="1" max="20" step="1" value="1" required />
+              <span class="hint">Up to 20 per order.</span>
+              <span class="error" id="error-qty" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <!-- Crust -->
+          <div class="section-title">Crust Type</div>
+          <div class="options" role="group" aria-labelledby="crust-group">
+            <label class="opt"><input type="radio" name="crust" value="Thin" required /> Thin</label>
+            <label class="opt"><input type="radio" name="crust" value="Hand-Tossed" /> Hand‑Tossed</label>
+            <label class="opt"><input type="radio" name="crust" value="Deep Dish" /> Deep Dish</label>
+            <label class="opt"><input type="radio" name="crust" value="Gluten-Free" /> Gluten‑Free</label>
+          </div>
+          <span class="error" id="error-crust" aria-live="polite"></span>
+
+          <!-- Toppings -->
+          <div class="section-title">Toppings <span class="badge">$1.25 each</span></div>
+          <div class="options">
+            <label class="opt"><input type="checkbox" name="toppings" value="Pepperoni" /> Pepperoni</label>
+            <label class="opt"><input type="checkbox" name="toppings" value="Sausage" /> Sausage</label>
+            <label class="opt"><input type="checkbox" name="toppings" value="Bacon" /> Bacon</label>
+            <label class="opt"><input type="checkbox" name="toppings" value="Ham" /> Ham</label>
+            <label class="opt"><input type="checkbox" name="toppings" value="Mushrooms" /> Mushrooms</label>
+            <label class="opt"><input type="checkbox" name="toppings" value="Onions" /> Onions</label>
+            <label class="opt"><input type="checkbox" name="toppings" value="Olives" /> Olives</label>
+            <label class="opt"><input type="checkbox" name="toppings" value="Green Peppers" /> Green Peppers</label>
+            <label class="opt"><input type="checkbox" name="toppings" value="Pineapple" /> Pineapple</label>
+            <label class="opt"><input type="checkbox" name="toppings" value="Extra Cheese" /> Extra Cheese</label>
+          </div>
+
+          <div class="hr"></div>
+
+          <!-- Contact -->
+          <div class="grid cols-2">
+            <div class="field">
+              <label for="fullname" class="label">Your Name</label>
+              <input id="fullname" name="fullname" type="text" required placeholder="Jane Doe" />
+              <span class="error" id="error-fullname" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="email" class="label">Email</label>
+              <input id="email" name="email" type="email" required placeholder="jane@example.com" />
+              <span class="error" id="error-email" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <!-- Payment -->
+          <div class="section-title">Payment Method</div>
+          <div class="options" role="group" aria-labelledby="payment-group">
+            <label class="opt"><input type="radio" name="payment" value="Card" required /> Credit/Debit Card</label>
+            <label class="opt"><input type="radio" name="payment" value="Cash" /> Cash</label>
+          </div>
+          <span class="error" id="error-payment" aria-live="polite"></span>
+
+          <!-- Card Fields (conditionally shown) -->
+          <div id="cardFields" class="grid cols-2" style="display:none; margin-top:8px">
+            <div class="field">
+              <label for="cardName" class="label">Name on Card</label>
+              <input id="cardName" name="cardName" type="text" />
+              <span class="error" id="error-cardName" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="cardNumber" class="label">Card Number</label>
+              <input id="cardNumber" name="cardNumber" inputmode="numeric" pattern="^[0-9]{13,19}$" placeholder="1234123412341234" />
+              <span class="hint">Digits only, 13–19 numbers.</span>
+              <span class="error" id="error-cardNumber" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="exp" class="label">Expiry (MM/YY)</label>
+              <input id="exp" name="exp" placeholder="08/28" pattern="^(0[1-9]|1[0-2])\/(\d{2})$" />
+              <span class="error" id="error-exp" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="cvv" class="label">CVV</label>
+              <input id="cvv" name="cvv" inputmode="numeric" pattern="^\d{3,4}$" placeholder="123" />
+              <span class="error" id="error-cvv" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div class="hr"></div>
+
+          <!-- Totals & Terms -->
+          <div class="grid cols-2">
+            <div class="field">
+              <div class="label">Order Total</div>
+              <div id="total" class="price" aria-live="polite">$0.00</div>
+              <span class="hint">Includes base + toppings × quantity. (No tax/shipping.)</span>
+            </div>
+            <div class="field">
+              <label class="opt" style="padding:0; border:none; background:transparent">
+                <input type="checkbox" id="terms" required />
+                <span>I confirm the details above are correct.</span>
+              </label>
+              <span class="error" id="error-terms" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="reset" class="btn-secondary" id="resetBtn">Reset</button>
+            <button type="submit">Place Order</button>
+          </div>
+
+          <div id="formError" class="error" role="alert" aria-live="assertive" style="margin-top:10px"></div>
+        </form>
+
+        <div id="orderSummary" class="summary" style="display:none; margin-top:16px" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+  <script src="pizzaproject.js" defer></script>
+</body>
+</html>
